@@ -1,7 +1,6 @@
 package com.cnit355.cnit425_blackboard;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
