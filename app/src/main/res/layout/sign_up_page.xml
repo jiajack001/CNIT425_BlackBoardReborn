@@ -6,44 +6,38 @@
     android:layout_height="match_parent"
     android:background="#272525">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#1D1C1C"
-        android:text="Pick a date"
-        android:textColor="#FFC107"
-        android:textSize="24sp"
-        tools:layout_editor_absoluteX="146dp"
-        tools:layout_editor_absoluteY="109dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/signUpButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next"
-        tools:layout_editor_absoluteX="159dp"
-        tools:layout_editor_absoluteY="627dp" />
+        <TextView
+            android:id="@+id/tagPickDateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#1D1C1C"
+            android:text="Pick a date"
+            android:textColor="#FFC107"
+            android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/textView20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#1D1C1C"
-        android:text="Vaccination Sign Up"
-        android:textColor="#FFC107"
-        android:textSize="24sp"
-        tools:layout_editor_absoluteX="99dp"
-        tools:layout_editor_absoluteY="29dp" />
+        <CalendarView
+            android:id="@+id/calendarRegister"
+            android:layout_width="344dp"
+            android:layout_height="331dp"
+            android:background="#705858"
+            android:focusedMonthDateColor="#AEA0A0"
+            android:weekDayTextAppearance="@style/TextAppearance.AppCompat.Large" />
 
-    <CalendarView
-        android:id="@+id/signUpCalendarView"
-        android:layout_width="344dp"
-        android:layout_height="331dp"
-        android:background="#705858"
-        android:focusedMonthDateColor="#AEA0A0"
-        android:weekDayTextAppearance="@style/TextAppearance.AppCompat.Large"
-        tools:layout_editor_absoluteX="33dp"
-        tools:layout_editor_absoluteY="186dp" />
+        <Spinner
+            android:id="@+id/spinTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

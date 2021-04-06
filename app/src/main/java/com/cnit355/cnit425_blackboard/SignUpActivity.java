@@ -1,7 +1,6 @@
 package com.cnit355.cnit425_blackboard;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 
@@ -19,7 +18,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up_page);
 
-        signUpCalendarView = findViewById(R.id.signUpCalendarView);
+        signUpCalendarView = findViewById(R.id.calendarRegister);
         signUpCalendarView.setClickable(true);
 
         Date date = new Date();
