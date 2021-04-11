@@ -6,38 +6,5 @@
     android:layout_height="match_parent"
     android:background="#272525">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tagPickDateTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#1D1C1C"
-            android:text="Pick a date"
-            android:textColor="#FFC107"
-            android:textSize="24sp" />
-
-        <CalendarView
-            android:id="@+id/calendarRegister"
-            android:layout_width="344dp"
-            android:layout_height="331dp"
-            android:background="#705858"
-            android:focusedMonthDateColor="#AEA0A0"
-            android:weekDayTextAppearance="@style/TextAppearance.AppCompat.Large" />
-
-        <Spinner
-            android:id="@+id/spinTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Next" />
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
