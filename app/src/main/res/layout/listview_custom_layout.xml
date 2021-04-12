@@ -19,14 +19,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            tools:text="9:00-10:00" />
+            tools:text="9:00-10:00"
+            android:textColor="#FFC107"/>
 
         <TextView
             android:id="@+id/tagLeft"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="right|center_vertical"
+            android:gravity="center_vertical|end"
+            android:textColor="#FFC107"
             tools:text="Avaliable: " />
 
         <TextView
@@ -35,7 +37,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            tools:text="9/30" />
+            tools:text="9/30"
+            android:textColor="#FFC107"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,31 +13,36 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TimeSlotArrayAdapter extends ArrayAdapter {
     private final Context context;
-    private final static String[] timeSlot = new String[]{
-            "8:00-9:00","9:00-10:00","10:00-11:00","11:00-12:00","12:00-13:00",
-            "13:00-14:00","14:00-15:00","15:00-16:00","16:00-17:00"};
 
-    private final ArrayList<Integer> availability;
-    private int checkedPosition;
+    private final ArrayList<String> availabilityTime;
+    private final HashMap<String, Integer> availabilitySlot;
+    public int checkedPosition;
 
-    public TimeSlotArrayAdapter(Context context, ArrayList<Integer> avail){
+    public TimeSlotArrayAdapter(Context context, ArrayList<String> avail, HashMap<String,Integer> map){
         super(context,R.layout.listview_custom_layout, avail);
         this.context = context;
-        this.availability = avail;
+        this.availabilityTime = avail;
+        this.availabilitySlot = map;
     }
 
     @SuppressLint("DefaultLocale")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        //inflate the rowView of ListView
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         @SuppressLint("ViewHolder") View rowView = inflater.inflate(R.layout.listview_custom_layout,parent,false);
 
+        //find the time ticket String
+        String timeFrame = availabilityTime.get(position);
+
+        //Define RadioButton text, and onClick behavior (when onClick, notify the adapter to re-inflate the ListView)
         RadioButton rad = rowView.findViewById(R.id.btnRadio);
-        rad.setText(timeSlot[position]);
+        rad.setText(timeFrame);
         rad.setChecked(position == checkedPosition);
         rad.setTag(position);
         rad.setOnClickListener(v -> {
@@ -45,11 +50,12 @@ public class TimeSlotArrayAdapter extends ArrayAdapter {
             notifyDataSetChanged();
         });
 
+        //Display the number of spots left for registration
         TextView txt = rowView.findViewById(R.id.txtCountLeft);
-        int num = (int) availability.get(position);
+        Integer num =  availabilitySlot.get(timeFrame);
         txt.setText(String.format("%d/15",num));
-
-        if(num >= 15){
+            //if the num left is >= 15, disable the radiobutton
+        if(num!= null && num >= 15){
             rad.setEnabled(false);
         }
 

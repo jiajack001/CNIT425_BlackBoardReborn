@@ -18,13 +18,21 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tagPickDateTime"
+            android:id="@+id/tagSelectedLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="#1D1C1C"
+            android:text="Selected Location:"
+            android:textColor="#FFC107" />
+
+        <TextView
+            android:id="@+id/tagPickDateTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#1D1C1C"
             android:gravity="center"
-            android:text="Pick a date"
+            android:text="Pick a date:"
             android:textColor="#FFC107"
             android:textSize="24sp" />
 
@@ -38,7 +46,6 @@
             android:background="#705858"
             android:focusedMonthDateColor="#AEA0A0"
             android:maxDate="05/01/2022"
-            android:minDate="05/01/2021"
             android:weekDayTextAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <ListView
