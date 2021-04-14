@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegistrationConfirmation">
+
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tagTitle_Confirmation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Confirmation"
+            android:textSize="24sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tagLocation_Confirmation"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="Location: "
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/txtLocation_Confirmation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tagAddress_Confirmation"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="Address: "
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/txtAddress_Confirmation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tagDate_Confirmation"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="Date: "
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/txtDate_Confirmation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tagTime_Confirmation"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="Time: "
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/txtTime_Confirmation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tagEmail_Confirmation"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="Email: "
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/txtEmail_Confirmation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="btnConfirmOnClick"
+            android:text="Confirm" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

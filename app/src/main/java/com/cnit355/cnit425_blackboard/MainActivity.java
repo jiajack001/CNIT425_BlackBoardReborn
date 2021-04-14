@@ -1,8 +1,6 @@
 package com.cnit355.cnit425_blackboard;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,8 +9,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,25 +28,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Request permission to read location info
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-        != PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale
-                    (this,Manifest.permission.ACCESS_FINE_LOCATION)){
-            }else{
-                ActivityCompat.requestPermissions
-                        (this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
-            }
-        }
-
+        //getInstance
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-
-
-        //for ()
-        //mDateRef.child("sss").
     }
 
+    //when the app opens, auto-login
     @Override
     public void onStart() {
         super.onStart();
@@ -61,24 +44,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     //Sign up a new user on database
     public void btnSignUpOnClick(View view){
         String email = ((TextView)findViewById(R.id.txtEmail)).getText().toString();
         String password = ((TextView)findViewById(R.id.txtPassword)).getText().toString();
-
+        //sign up with email and password
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+                            // Signed up success, update UI with the signed-up user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             new Thread(() -> {
                                 DatabaseReference mDataRef = database.getReference("user");
                                 mDataRef.child(user.getUid()).child("Email").setValue(email);
-                                //mDataRef.child(user.getUid()).child("Booking Time").setValue("2021/05/05 10:00am");
                             }).start();
                             updateUI(user);
                         } else {
@@ -92,12 +73,11 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-
     //Sign-In with current credentials on database
     public void btnSignInOnClick(View view){
-        String email = null;
-        String password = null;
-
+        String email = ((TextView)findViewById(R.id.txtEmail)).getText().toString();
+        String password = ((TextView)findViewById(R.id.txtPassword)).getText().toString();
+        //sign in with email and password
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -119,13 +99,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //navigate to Menu if the user is not null (has login)
     private void updateUI(FirebaseUser u){
         if (u != null){
             Intent mIntent = new Intent(this, Menu.class);
             startActivity(mIntent);
         }
     }
-
-
-
 }

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegistrationResult">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tagTitle_Result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Registration Ticket"
+            android:textSize="24sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tagLocation_Result"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="Location: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtLocation_Result"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tagAddress_Result"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="Address: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtAddress_Result"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tagDate_Result"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="Date: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtDate_Result"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tagTime_Result"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="Time: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtTime_Result"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tagEmail_Result"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="Email: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtEmail_Result"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgView_Registration_QRCode"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:contentDescription="QRCode of Registration"
+            tools:srcCompat="@drawable/qr_sample" />
+
+        <Button
+            android:id="@+id/btnResultBackToMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:onClick="btnResultBackToMenuOnClick"
+            android:text="Back To Menu" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

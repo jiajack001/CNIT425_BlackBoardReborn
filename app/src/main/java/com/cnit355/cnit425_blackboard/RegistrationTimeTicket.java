@@ -1,8 +1,10 @@
 package com.cnit355.cnit425_blackboard;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,7 +29,9 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class RegistrationTimeTicket extends AppCompatActivity {
+    //
     private String location_selected;
+    private String address_selected;
     private String date_selected;
     private String date_begin;
     private String date_end;
@@ -39,7 +43,8 @@ public class RegistrationTimeTicket extends AppCompatActivity {
     private HashMap<String,Integer> AvailabilitySlot;
     private TimeSlotArrayAdapter adapter;
 
-    @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    @SuppressLint("SimpleDateFormat")
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,7 @@ public class RegistrationTimeTicket extends AppCompatActivity {
 
         //display the location that was selected previously
         location_selected = getIntent().getStringExtra("location");
+        address_selected = getIntent().getStringExtra("address");
         ((TextView)findViewById(R.id.tagSelectedLocation)).append(location_selected);
 
         //Define the EventListener for Date changed
@@ -111,6 +117,10 @@ public class RegistrationTimeTicket extends AppCompatActivity {
                                         }
                                         try {
                                             long date = simpleDateFormat.parse(date_begin).getTime();
+                                            long today = (new Date()).getTime();
+                                            if(today>date){
+                                                date = today;
+                                            }
                                             cal.setMinDate(date);
                                             cal.setDate(date);
 
@@ -139,7 +149,6 @@ public class RegistrationTimeTicket extends AppCompatActivity {
 
         //define CalendarView behavior
         CalendarView calendar = findViewById(R.id.calendarRegister);
-        //calendar.setMinDate((new Date()).getTime());
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @SuppressLint("DefaultLocale")
             @Override
@@ -163,5 +172,30 @@ public class RegistrationTimeTicket extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onPause(){
+        if (date_selected!=null){
+            mRef.child("time").child(date_selected).removeEventListener(availabilityTracker);
+        }
+        super.onPause();
+    }
+
+    public void btnNextToConfirmationOnClick(View view){
+        if (location_selected != null
+                && date_selected != null
+                && !Objects.equals(mRef.getKey(), "location")){
+            Intent mIntent = new Intent(this,RegistrationConfirmation.class);
+            mIntent.putExtra("DatabaseRef", mRef.getKey());
+            mIntent.putExtra("location", location_selected);
+            mIntent.putExtra("address",address_selected);
+            mIntent.putExtra("date", date_selected);
+            mIntent.putExtra("time", AvailabilityTime.get(adapter.checkedPosition));
+            startActivity(mIntent);
+        }else{
+            Toast.makeText(
+                    this,"Please select a date and time before proceeding!",Toast.LENGTH_LONG).show();
+        }
     }
 }

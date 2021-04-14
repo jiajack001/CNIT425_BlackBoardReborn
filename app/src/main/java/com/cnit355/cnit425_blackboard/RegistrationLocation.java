@@ -144,6 +144,7 @@ public class RegistrationLocation extends AppCompatActivity implements OnMapRead
     public void btnLocationToTimeOnClick(View view){
         Intent next = new Intent(this, RegistrationTimeTicket.class);
         next.putExtra("location",location_selected);
+        next.putExtra("address",AvailableLocationMap.get(location_selected));
         startActivity(next);
     }
 }

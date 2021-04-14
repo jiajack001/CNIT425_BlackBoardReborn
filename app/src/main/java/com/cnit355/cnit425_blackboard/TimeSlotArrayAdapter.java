@@ -20,7 +20,7 @@ public class TimeSlotArrayAdapter extends ArrayAdapter {
 
     private final ArrayList<String> availabilityTime;
     private final HashMap<String, Integer> availabilitySlot;
-    public int checkedPosition;
+    public int checkedPosition = 0;
 
     public TimeSlotArrayAdapter(Context context, ArrayList<String> avail, HashMap<String,Integer> map){
         super(context,R.layout.listview_custom_layout, avail);
