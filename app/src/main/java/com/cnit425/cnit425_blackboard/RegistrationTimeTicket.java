@@ -1,4 +1,4 @@
-package com.cnit355.cnit425_blackboard;
+package com.cnit425.cnit425_blackboard;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

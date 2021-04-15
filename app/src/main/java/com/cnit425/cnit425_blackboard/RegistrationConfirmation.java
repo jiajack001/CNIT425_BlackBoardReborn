@@ -1,5 +1,6 @@
-package com.cnit355.cnit425_blackboard;
+package com.cnit425.cnit425_blackboard;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -93,16 +94,27 @@ public class RegistrationConfirmation extends AppCompatActivity {
                 mRef.child(uid).setValue(email);
                 mRef.child("Count").setValue(cnt+1);
 
-                //add data under /user/uid/Vaccination/Registration
-                DatabaseReference mDataRef = FirebaseDatabase.getInstance().getReference("user");
-                mDataRef = mDataRef.child(uid).child("Vaccination").child("Registration");
-                mDataRef.child("location").setValue(location_serial);
-                mDataRef.child("date").setValue(date);
-                mDataRef.child("time").setValue(time);
+                //add data under /user/uid/Vaccination/<Dose1> / <Dose2>
+                DatabaseReference mUserRef = FirebaseDatabase.getInstance().getReference("user");
+                mUserRef.child(uid).child("Vaccination").get().addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()){
+                        DatabaseReference mVaccineRef;
+                        Integer i = task1.getResult().child("VaccineCount").getValue(Integer.class);
+                        @SuppressLint("DefaultLocale") String dose = String.format("Dose%d",i+1);
+                        mVaccineRef = mUserRef.child(uid).child("Vaccination").child(dose);
+                        mVaccineRef.child("location").setValue(location_serial);
+                        mVaccineRef.child("date").setValue(date);
+                        mVaccineRef.child("time").setValue(time);
+                        mVaccineRef.child("completed").setValue(false);
 
-                //display the result page
-                Intent mIntent = new Intent(getApplicationContext(), RegistrationResult.class);
-                startActivity(mIntent);
+                        //display the result page
+                        Intent mIntent = new Intent(getApplicationContext(), RegistrationResult.class);
+                        startActivity(mIntent);
+                    }else{
+                        Toast.makeText(this,
+                                "Registration is incomplete, please try again",Toast.LENGTH_LONG).show();
+                    }
+                });
             }else{
                 Toast.makeText(getApplicationContext(),
                         "Error: Please return and try again!\nThe selected time may no longer be available!",

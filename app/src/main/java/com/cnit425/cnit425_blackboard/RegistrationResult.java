@@ -1,11 +1,14 @@
-package com.cnit355.cnit425_blackboard;
+package com.cnit425.cnit425_blackboard;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +36,7 @@ public class RegistrationResult extends AppCompatActivity {
     private String date;
     private String time;
     private String email;
+    private Boolean completed;
     private String uid;
 
     private ValueEventListener userValueListener;
@@ -52,19 +56,28 @@ public class RegistrationResult extends AppCompatActivity {
         uid = user.getUid();
         userRef = userRef.child(uid);
         userValueListener = new ValueEventListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //get email & location_serial & date & time from user/info
                 email = snapshot.child("Email").getValue(String.class);
-                location = snapshot.child("Vaccination")
-                        .child("Registration")
-                        .child("location").getValue(String.class);
-                date = snapshot.child("Vaccination")
-                        .child("Registration")
-                        .child("date").getValue(String.class);
-                time = snapshot.child("Vaccination")
-                        .child("Registration")
-                        .child("time").getValue(String.class);
+                Integer count = snapshot.child("Vaccination")
+                        .child("VaccineCount").getValue(Integer.class);
+                String dose = String.format("Dose%d",count+1);
+                if(!snapshot.child("Vaccination").hasChild(dose)){
+                       dose = String.format("Dose%d",count);
+                       if(!snapshot.child("Vaccination").hasChild(dose)){
+                           Toast.makeText(getApplicationContext(),
+                                   "You have not reserved any vaccination, please reserve first!",
+                                   Toast.LENGTH_LONG).show();
+                           RegistrationResult.this.finish();
+                           return;
+                       }
+                }
+                location = snapshot.child("Vaccination").child(dose).child("location").getValue(String.class);
+                date = snapshot.child("Vaccination").child(dose).child("date").getValue(String.class);
+                time = snapshot.child("Vaccination").child(dose).child("time").getValue(String.class);
+                completed = snapshot.child("Vaccination").child(dose).child("completed").getValue(Boolean.class);
 
                 //find the location info based on location_serial
                 if(locationValueListener!= null){
@@ -75,9 +88,11 @@ public class RegistrationResult extends AppCompatActivity {
                 TextView txtDate = findViewById(R.id.txtDate_Result);
                 TextView txtTime = findViewById(R.id.txtTime_Result);
                 TextView txtEmail = findViewById(R.id.txtEmail_Result);
+                RadioButton radCompleted = findViewById(R.id.radCompleted);
                 txtDate.setText(date);
                 txtTime.setText(time);
                 txtEmail.setText(email);
+                radCompleted.setChecked(completed);
             }
 
             @Override
@@ -108,6 +123,7 @@ public class RegistrationResult extends AppCompatActivity {
     }
 
     public void createQRCode(){
+        //create a JSON object to embed its String into QR code
         String jsonString = "";
         try {
             JSONObject mJSON = new JSONObject();
@@ -116,11 +132,13 @@ public class RegistrationResult extends AppCompatActivity {
             mJSON.put("date", date);
             mJSON.put("time", time);
             mJSON.put("email",email);
+            mJSON.put("completed",completed);
             jsonString = mJSON.toString();
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+        //convert the String to QRcode
         try{
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.encodeBitmap(jsonString, BarcodeFormat.QR_CODE,400,400);
@@ -144,7 +162,9 @@ public class RegistrationResult extends AppCompatActivity {
     @Override
     public void onPause(){
         userRef.removeEventListener(userValueListener);
-        geoRef.child(location).removeEventListener(locationValueListener);
+        if(location!=null){
+            geoRef.child(location).removeEventListener(locationValueListener);
+        }
         super.onPause();
     }
 }

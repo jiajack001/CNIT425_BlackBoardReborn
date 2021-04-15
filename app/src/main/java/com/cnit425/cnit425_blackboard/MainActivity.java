@@ -1,4 +1,4 @@
-package com.cnit355.cnit425_blackboard;
+package com.cnit425.cnit425_blackboard;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             new Thread(() -> {
                                 DatabaseReference mDataRef = database.getReference("user");
-                                mDataRef.child(user.getUid()).child("Email").setValue(email);
+                                String uid = user.getUid();
+                                mDataRef.child(uid).child("Email").setValue(email);
+                                mDataRef.child(uid).child("Vaccination").child("Vaccinated").setValue(false);
+                                mDataRef.child(uid).child("Vaccination").child("VaccineCount").setValue(0);
                             }).start();
                             updateUI(user);
                         } else {
