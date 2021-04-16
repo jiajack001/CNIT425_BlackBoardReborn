@@ -1,10 +1,11 @@
 package com.cnit425.cnit425_blackboard;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,10 +17,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class Menu extends AppCompatActivity {
 
@@ -35,6 +42,7 @@ public class Menu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
+        //define Vaccine Value Listener
         uid = FirebaseAuth.getInstance().getUid();
         mVaccineRef = FirebaseDatabase.getInstance().getReference("user").child(uid).child("Vaccination");
         mVaccineListener = new ValueEventListener() {
@@ -49,54 +57,15 @@ public class Menu extends AppCompatActivity {
             }
         };
 
-        //btnMenuToRegister onClick:  Reserve a vaccination
-        ImageView btnMenuToRegister = findViewById(R.id.btnMenuToRegister);
-        btnMenuToRegister.setOnClickListener(v -> {
-            if (!vaccination_data_ready) {
-                return;
-            }
-            //check if the user has completed its vaccination
-            //if the user has completed the vaccination, prohibit it from reservation again
-            if (vaccinated != null && vaccinated) {
-                Toast.makeText(getApplicationContext(),
-                        "Congrats! You have finished your vaccination!" +
-                                "\nYou don't need to reserve another vaccination!\n" +
-                                "If you have question about this, please contact us using Report Issues.",
-                        Toast.LENGTH_LONG).show();
-                //if the vaccinated data is lost, logcat the issue
-            } else if (vaccinated == null) {
-                Log.i("Menu.java", "Vaccinated history not founded!");
-                //if the user has not finished the vaccination, allow it to reserve a spot
-            } else {
-                startActivity(new Intent(getApplicationContext(), RegistrationLocation.class));
-            }
-        });
-
         //btnSignOut onClick: sign out and send user back to Login Menu
-        ImageView btnSignOut = findViewById(R.id.btnSignOut);
-        btnSignOut.setOnClickListener(v -> {
+        findViewById(R.id.btnSignOut).setOnClickListener(v -> {
             FirebaseAuth auth = FirebaseAuth.getInstance();
             auth.signOut();
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         });
 
-        //btnStatus onClick: if 100% vaccinated -> vaccination; otherwise -> registration window
-        ImageView btnStatus = findViewById(R.id.btnStatus);
-        btnStatus.setOnClickListener(v -> {
-            //check if the data is downloaded and ready
-            if (!vaccination_data_ready) {
-                return;
-            }
-            //vaccinated: true
-            if (vaccinated != null && vaccinated) {
-                startActivity(new Intent(getApplicationContext(), VaccinationStatus.class));
-            //vaccinated: null
-            } else if (vaccinated == null) {
-                Log.i("Menu.java", "Vaccinated history not founded!");
-            //vaccinated: false
-            } else {
-                startActivity(new Intent(getApplicationContext(), RegistrationResult.class));
-            }
+        findViewById(R.id.btnReportIssues).setOnClickListener(v -> {
+
         });
 
     }
@@ -114,6 +83,117 @@ public class Menu extends AppCompatActivity {
         super.onPause();
     }
 
+    //btnMenuToRegister onClick:  Reserve a vaccination
+    public void btnMenuToRegisterOnClick(View view){
+        if (!vaccination_data_ready) {
+            return;
+        }
+        //check if the user has completed its vaccination
+        //if the user has completed the vaccination, prohibit it from reservation again
+        if (vaccinated != null && vaccinated) {
+            Toast.makeText(getApplicationContext(),
+                    "Congrats! You have finished your vaccination!" +
+                            "\nYou don't need to reserve another vaccination!\n" +
+                            "If you have question about this, please contact us using Report Issues.",
+                    Toast.LENGTH_LONG).show();
+            //if the vaccinated data is lost, logcat the issue
+        } else if (vaccinated == null) {
+            Log.i("Menu.java", "Vaccinated history not founded!");
+            //if the user has not finished the vaccination, allow it to reserve a spot
+        } else {
+            startActivity(new Intent(getApplicationContext(), RegistrationLocation.class));
+        }
+    }
+
+    //btnStatus onClick: if 100% vaccinated -> vaccination; otherwise -> registration window
+    public void btnStatusOnClick(View view){
+        //check if the data is downloaded and ready
+        if (!vaccination_data_ready) {
+            return;
+        }
+        //vaccinated: true
+        if (vaccinated != null && vaccinated) {
+            startActivity(new Intent(getApplicationContext(), VaccinationStatus.class));
+            //vaccinated: null
+        } else if (vaccinated == null) {
+            Log.i("Menu.java", "Vaccinated history not founded!");
+            //vaccinated: false
+        } else {
+            startActivity(new Intent(getApplicationContext(), RegistrationResult.class));
+        }
+    }
+
+    //btnReport onClick: open new activity to report
+    public void btnReportIssuesOnClick(View view){
+        startActivity(new Intent(this, ReportIssues.class));
+    }
+
+    //btnScan onClick: Scan QR code
+    public void btnScanOnClick(View view){
+        new IntentIntegrator(this).initiateScan();
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        //check null before continuing
+        if(result == null) {
+            super.onActivityResult(requestCode, resultCode, data);
+            return;
+        }
+        if(result.getContents() == null) {
+            Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        //if !null, convert to JSON object
+        try {
+            JSONObject mJSON = new JSONObject(result.getContents());
+            //check if the JSON object is generated from this app
+            if(!mJSON.has("ProtectPurdueType")){
+                Toast.makeText(this, "Invalid QR Code", Toast.LENGTH_LONG).show();
+                return;
+            }
+            //use the email info to check if the user has been vaccinated
+            String email = mJSON.getString("email");
+            DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("user");
+            mRef.orderByChild("Email").equalTo(email).get().addOnCompleteListener(task -> {
+                Boolean vaccinated_scan = false;
+                //check if task successful -> true: get if the person_scanned has been vaccinated
+                if(!task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                for(DataSnapshot shot: Objects.requireNonNull(task.getResult()).getChildren()){
+                    vaccinated_scan = shot.child("Vaccination").child("Vaccinated").getValue(Boolean.class);
+                }
+                //display different dialog based on vaccinated_scan
+                if(vaccinated_scan){
+                    displayDialog("Protect Purdue",
+                            "Confirmed! The person has been vaccinated!",
+                            "Great!");
+                }else{
+                    displayDialog("Protect Purdue",
+                            "The person has NOT been vaccinated!",
+                            "Ok");
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //display dialog with title, msg, btnText
+    public void displayDialog(String title, String message,String btnMsg){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setCancelable(false);
+        builder.setPositiveButton(btnMsg, (dialog, which) -> {
+            dialog.dismiss();
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
 
 
@@ -123,19 +203,6 @@ public class Menu extends AppCompatActivity {
 
 
     //ignore: Function to add date & time based on Addr to database
-
-    //        addNewRef("location1",
-//                "France A. Córdova Recreational Sports Center",
-//                "355 N Martin Jischke Dr, West Lafayette, IN 47906",
-//                40.428488,-86.922363);
-//        addNewRef("location2",
-//                "Tippecanoe County Health Department Vital Records and Nursing",
-//                "629 N 6th St, Lafayette, IN 47901",
-//                40.423707,-86.890001);
-//        addNewRef("location3",
-//                "CVS Pharmacy",
-//                "1725 Salem St, Lafayette, IN 47904",
-//                40.425137,-86.878092);
     public void addNewRef(String addr,String name, String address,double lat, double longi){
         DatabaseReference mDateRef = FirebaseDatabase.getInstance().getReference("location").child(addr);
         @SuppressLint("SimpleDateFormat")
@@ -164,8 +231,6 @@ public class Menu extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
     /*
     *
     * France A. Córdova Recreational Sports Center

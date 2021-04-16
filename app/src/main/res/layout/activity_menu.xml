@@ -21,21 +21,23 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp">
 
-            <ImageView
-                android:id="@+id/btnPlaceHolder"
+            <Button
+                android:id="@+id/btnScan"
                 android:layout_width="108dp"
                 android:layout_height="108dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                app:srcCompat="@drawable/button_protect_purdue" />
+                android:foreground="@drawable/button_protect_purdue"
+                android:onClick="btnScanOnClick" />
 
-            <ImageView
+            <Button
                 android:id="@+id/btnMenuToRegister"
                 android:layout_width="108dp"
                 android:layout_height="108dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                app:srcCompat="@drawable/button_reserve" />
+                android:foreground="@drawable/button_reserve"
+                android:onClick="btnMenuToRegisterOnClick" />
         </TableRow>
 
         <TableRow
@@ -44,21 +46,23 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp">
 
-            <ImageView
+            <Button
                 android:id="@+id/btnReportIssues"
                 android:layout_width="108dp"
                 android:layout_height="108dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                app:srcCompat="@drawable/button_report_issues" />
+                android:foreground="@drawable/button_report_issues"
+                android:onClick="btnReportIssuesOnClick" />
 
-            <ImageView
+            <Button
                 android:id="@+id/btnStatus"
                 android:layout_width="108dp"
                 android:layout_height="108dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                app:srcCompat="@drawable/button_status" />
+                android:foreground="@drawable/button_status"
+                android:onClick="btnStatusOnClick" />
 
         </TableRow>
 
@@ -68,21 +72,21 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp">
 
-            <ImageView
+            <Button
                 android:id="@+id/btnOpenProtectPurdue"
                 android:layout_width="108dp"
                 android:layout_height="108dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                app:srcCompat="@drawable/button_protect_purdue" />
+                android:foreground="@drawable/button_protect_purdue" />
 
-            <ImageView
+            <Button
                 android:id="@+id/btnSignOut"
                 android:layout_width="108dp"
                 android:layout_height="108dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                app:srcCompat="@drawable/button_sign_out" />
+                android:foreground="@drawable/button_sign_out" />
 
         </TableRow>
 

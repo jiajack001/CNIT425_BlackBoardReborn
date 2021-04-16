@@ -127,6 +127,7 @@ public class RegistrationResult extends AppCompatActivity {
         String jsonString = "";
         try {
             JSONObject mJSON = new JSONObject();
+            mJSON.put("ProtectPurdueType","Registration");
             mJSON.put("location",location_name);
             mJSON.put("address", address);
             mJSON.put("date", date);
@@ -154,13 +155,13 @@ public class RegistrationResult extends AppCompatActivity {
     }
 
     @Override
-    public void onResume(){
+    protected void onResume(){
         userRef.addValueEventListener(userValueListener);
         super.onResume();
     }
 
     @Override
-    public void onPause(){
+    protected void onPause(){
         userRef.removeEventListener(userValueListener);
         if(location!=null){
             geoRef.child(location).removeEventListener(locationValueListener);

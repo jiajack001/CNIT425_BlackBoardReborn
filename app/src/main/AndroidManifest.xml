@@ -17,9 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CNIT425_BlackBoard">
-        <activity android:name="com.cnit425.cnit425_blackboard.VaccinationStatus"></activity>
-        <activity android:name="com.cnit425.cnit425_blackboard.RegistrationResult" />
-        <activity android:name="com.cnit425.cnit425_blackboard.RegistrationConfirmation" />
+        <activity android:name=".ReportIssues"></activity>
+        <activity android:name=".VaccinationStatus" />
+        <activity android:name=".RegistrationResult" />
+        <activity android:name=".RegistrationConfirmation" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -35,10 +36,10 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name="com.cnit425.cnit425_blackboard.RegistrationLocation" />
-        <activity android:name="com.cnit425.cnit425_blackboard.RegistrationTimeTicket" />
-        <activity android:name="com.cnit425.cnit425_blackboard.Menu" />
-        <activity android:name="com.cnit425.cnit425_blackboard.MainActivity">
+        <activity android:name=".RegistrationLocation" />
+        <activity android:name=".RegistrationTimeTicket" />
+        <activity android:name=".Menu" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

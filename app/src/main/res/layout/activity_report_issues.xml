@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReportIssues">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tagReportTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="  Title" />
+
+        <EditText
+            android:id="@+id/txtReportTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="top|start"
+            android:hint="Title"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/tagReportMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="  Message" />
+
+        <EditText
+            android:id="@+id/txtReportMessage"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:ems="10"
+            android:gravity="top|start"
+            android:hint="Type Your Message Here"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/btnReportNow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="btnReportNowOnClick"
+            android:text="Report" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
