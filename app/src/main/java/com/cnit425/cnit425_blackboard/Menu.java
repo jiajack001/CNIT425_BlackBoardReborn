@@ -3,6 +3,7 @@ package com.cnit425.cnit425_blackboard;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -64,10 +65,6 @@ public class Menu extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         });
 
-        findViewById(R.id.btnReportIssues).setOnClickListener(v -> {
-
-        });
-
     }
 
     //while onResume, add listener to update info from database
@@ -81,51 +78,6 @@ public class Menu extends AppCompatActivity {
     protected void onPause() {
         mVaccineRef.removeEventListener(mVaccineListener);
         super.onPause();
-    }
-
-    //btnMenuToRegister onClick:  Reserve a vaccination
-    public void btnMenuToRegisterOnClick(View view){
-        if (!vaccination_data_ready) {
-            return;
-        }
-        //check if the user has completed its vaccination
-        //if the user has completed the vaccination, prohibit it from reservation again
-        if (vaccinated != null && vaccinated) {
-            Toast.makeText(getApplicationContext(),
-                    "Congrats! You have finished your vaccination!" +
-                            "\nYou don't need to reserve another vaccination!\n" +
-                            "If you have question about this, please contact us using Report Issues.",
-                    Toast.LENGTH_LONG).show();
-            //if the vaccinated data is lost, logcat the issue
-        } else if (vaccinated == null) {
-            Log.i("Menu.java", "Vaccinated history not founded!");
-            //if the user has not finished the vaccination, allow it to reserve a spot
-        } else {
-            startActivity(new Intent(getApplicationContext(), RegistrationLocation.class));
-        }
-    }
-
-    //btnStatus onClick: if 100% vaccinated -> vaccination; otherwise -> registration window
-    public void btnStatusOnClick(View view){
-        //check if the data is downloaded and ready
-        if (!vaccination_data_ready) {
-            return;
-        }
-        //vaccinated: true
-        if (vaccinated != null && vaccinated) {
-            startActivity(new Intent(getApplicationContext(), VaccinationStatus.class));
-            //vaccinated: null
-        } else if (vaccinated == null) {
-            Log.i("Menu.java", "Vaccinated history not founded!");
-            //vaccinated: false
-        } else {
-            startActivity(new Intent(getApplicationContext(), RegistrationResult.class));
-        }
-    }
-
-    //btnReport onClick: open new activity to report
-    public void btnReportIssuesOnClick(View view){
-        startActivity(new Intent(this, ReportIssues.class));
     }
 
     //btnScan onClick: Scan QR code
@@ -182,6 +134,58 @@ public class Menu extends AppCompatActivity {
         }
     }
 
+    //btnMenuToRegister onClick:  Reserve a vaccination
+    public void btnMenuToRegisterOnClick(View view){
+        if (!vaccination_data_ready) {
+            return;
+        }
+        //check if the user has completed its vaccination
+        //if the user has completed the vaccination, prohibit it from reservation again
+        if (vaccinated != null && vaccinated) {
+            Toast.makeText(getApplicationContext(),
+                    "Congrats! You have finished your vaccination!" +
+                            "\nYou don't need to reserve another vaccination!\n" +
+                            "If you have question about this, please contact us using Report Issues.",
+                    Toast.LENGTH_LONG).show();
+            //if the vaccinated data is lost, logcat the issue
+        } else if (vaccinated == null) {
+            Log.i("Menu.java", "Vaccinated history not founded!");
+            //if the user has not finished the vaccination, allow it to reserve a spot
+        } else {
+            startActivity(new Intent(getApplicationContext(), RegistrationLocation.class));
+        }
+    }
+
+    //btnReport onClick: open new activity to report
+    public void btnReportIssuesOnClick(View view){
+        startActivity(new Intent(this, ReportIssues.class));
+    }
+
+    //btnStatus onClick: if 100% vaccinated -> vaccination; otherwise -> registration window
+    public void btnStatusOnClick(View view){
+        //check if the data is downloaded and ready
+        if (!vaccination_data_ready) {
+            return;
+        }
+        //vaccinated: true
+        if (vaccinated != null && vaccinated) {
+            startActivity(new Intent(getApplicationContext(), VaccinationStatus.class));
+            //vaccinated: null
+        } else if (vaccinated == null) {
+            Log.i("Menu.java", "Vaccinated history not founded!");
+            //vaccinated: false
+        } else {
+            startActivity(new Intent(getApplicationContext(), RegistrationResult.class));
+        }
+    }
+
+    //btnOpenProtectPurdue onClick: open Protect Purdue website
+    public void btnOpenProtectPurdueOnClick(View view){
+        String uri = "https://protect.purdue.edu/";
+        Intent mIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        startActivity(mIntent);
+    }
+
     //display dialog with title, msg, btnText
     public void displayDialog(String title, String message,String btnMsg){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -197,12 +201,9 @@ public class Menu extends AppCompatActivity {
 
 
 
-
-
-
-
-
-    //ignore: Function to add date & time based on Addr to database
+    /*
+    ignore: Function to add date & time based on Addr to database
+     */
     public void addNewRef(String addr,String name, String address,double lat, double longi){
         DatabaseReference mDateRef = FirebaseDatabase.getInstance().getReference("location").child(addr);
         @SuppressLint("SimpleDateFormat")
