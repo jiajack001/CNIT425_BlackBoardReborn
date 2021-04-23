@@ -1,6 +1,8 @@
 package com.cnit425.cnit425_blackboard;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
         //getInstance
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+
+        SharedPreferences pref = getSharedPreferences("PREF", Context.MODE_PRIVATE);
+        ((TextView)findViewById(R.id.txtEmail)).setText(pref.getString("id",""));
+        ((TextView)findViewById(R.id.txtPassword)).setText(pref.getString("pw",""));
     }
 
     //when the app opens, auto-login
@@ -71,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                                 mDataRef.child(uid).child("Vaccination").child("Vaccinated").setValue(false);
                                 mDataRef.child(uid).child("Vaccination").child("VaccineCount").setValue(0);
                             }).start();
+                            saveCredential(email,password);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -103,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            saveCredential(email,password);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -115,6 +123,15 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    //store id and pw into shared_pref
+    public void saveCredential(String id, String pw){
+        SharedPreferences pref = getSharedPreferences("PREF",Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putString("id",id);
+        edit.putString("pw",pw);
+        edit.apply();
     }
 
     //input check func, return true if id or pw is null/empty
