@@ -125,7 +125,7 @@ public class Menu extends AppCompatActivity {
                 //display different dialog based on vaccinated_scan
                 if(vaccinated_scan){
                     displayDialog("Protect Purdue",
-                            "Confirmed! The person has been vaccinated!",
+                            String.format("Confirmed! The person with email %s has been vaccinated!",email),
                             "Great!");
                 }else{
                     displayDialog("Protect Purdue",
