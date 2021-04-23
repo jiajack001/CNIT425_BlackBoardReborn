@@ -18,7 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CNIT425_BlackBoard">
-        <activity android:name=".ReportIssues"></activity>
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="fullSensor"
+            tools:replace="screenOrientation" />
+        <activity android:name=".ReportIssues" />
         <activity android:name=".VaccinationStatus" />
         <activity android:name=".RegistrationResult" />
         <activity android:name=".RegistrationConfirmation" />

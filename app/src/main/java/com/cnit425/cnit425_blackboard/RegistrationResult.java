@@ -168,4 +168,9 @@ public class RegistrationResult extends AppCompatActivity {
         }
         super.onPause();
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this,Menu.class));
+    }
 }
