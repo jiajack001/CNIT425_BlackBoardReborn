@@ -52,5 +52,7 @@ public class ReportIssues extends AppCompatActivity {
         mReportRef.child(report_id).child("title").setValue(title);
         mReportRef.child(report_id).child("msg").setValue(msg);
         mReportRef.child(report_id).child("uid").setValue(uid);
+
+        finish();
     }
 }
