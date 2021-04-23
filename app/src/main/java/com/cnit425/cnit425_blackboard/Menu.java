@@ -82,9 +82,13 @@ public class Menu extends AppCompatActivity {
 
     //btnScan onClick: Scan QR code
     public void btnScanOnClick(View view){
-        new IntentIntegrator(this).initiateScan();
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+        integrator.setOrientationLocked(false);
+        integrator.setBarcodeImageEnabled(true);
+        integrator.initiateScan();
     }
-    @Override
+    @Override //return by Scan QRCode scanner
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         //check null before continuing
@@ -131,6 +135,7 @@ public class Menu extends AppCompatActivity {
             });
         } catch (JSONException e) {
             e.printStackTrace();
+            Toast.makeText(this,"This is not a JSON object",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -199,6 +204,10 @@ public class Menu extends AppCompatActivity {
         dialog.show();
     }
 
+    @Override
+    public void onBackPressed() {
+        //do nothing when back button is pressed
+    }
 
 
     /*

@@ -29,7 +29,7 @@ public class TimeSlotArrayAdapter extends ArrayAdapter {
         this.availabilitySlot = map;
     }
 
-    @SuppressLint("DefaultLocale")
+    @SuppressLint({"DefaultLocale", "ResourceAsColor"})
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -57,6 +57,11 @@ public class TimeSlotArrayAdapter extends ArrayAdapter {
             //if the num left is >= 15, disable the radiobutton
         if(num!= null && num >= 15){
             rad.setEnabled(false);
+            if(position == checkedPosition){
+                rad.setChecked(false);
+            }
+            rad.setTextColor(R.color.common_google_signin_btn_text_dark_disabled);
+            txt.setTextColor(R.color.common_google_signin_btn_text_dark_disabled);
         }
 
         return rowView;

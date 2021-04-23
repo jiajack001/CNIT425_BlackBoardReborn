@@ -45,7 +45,7 @@ public class ReportIssues extends AppCompatActivity {
         long timelog = (new Date()).getTime();
 
         //create a new uid for report
-        String report_id = email + timelog;
+        String report_id = uid + timelog;
 
         //push data into database
         mReportRef.child(report_id).child("email").setValue(email);

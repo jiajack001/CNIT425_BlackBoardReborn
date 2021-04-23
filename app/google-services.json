@@ -1,15 +1,45 @@
 {
   "project_info": {
     "project_number": "809489050825",
+    "firebase_url": "https://purdue-vaccine---cnit-425-default-rtdb.firebaseio.com",
     "project_id": "purdue-vaccine---cnit-425",
     "storage_bucket": "purdue-vaccine---cnit-425.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:809489050825:android:97c98d79beaeff51e2b118",
+        "mobilesdk_app_id": "1:809489050825:android:0f62f6d86cd03dd2e2b118",
         "android_client_info": {
-          "package_name": "com.cnit355.cnit425_blackboard"
+          "package_name": "com.cnit425.cnit425_blackboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "809489050825-um5nm5u9u2mc6718db3ats43i2t5sg9s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXT1lKzQ5JGV-GWN4yZT1q5DcfIicLRSw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "809489050825-um5nm5u9u2mc6718db3ats43i2t5sg9s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:809489050825:android:399d3b6b9a3ca6f5e2b118",
+        "android_client_info": {
+          "package_name": "com.cnit425.protectpurdueadmin"
         }
       },
       "oauth_client": [

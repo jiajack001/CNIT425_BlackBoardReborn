@@ -18,6 +18,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private FirebaseAuth mAuth;
@@ -48,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
     public void btnSignUpOnClick(View view){
         String email = ((TextView)findViewById(R.id.txtEmail)).getText().toString();
         String password = ((TextView)findViewById(R.id.txtPassword)).getText().toString();
+        //input check
+        if(inputCheckNull(email,password)){
+            Toast.makeText(this,"id or password can't be null",Toast.LENGTH_SHORT).show();
+            return;
+        }
         //sign up with email and password
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -68,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, task.getException().getMessage(),
+                            Toast.makeText(MainActivity.this,
+                                    Objects.requireNonNull(task.getException()).getMessage(),
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -80,6 +88,12 @@ public class MainActivity extends AppCompatActivity {
     public void btnSignInOnClick(View view){
         String email = ((TextView)findViewById(R.id.txtEmail)).getText().toString();
         String password = ((TextView)findViewById(R.id.txtPassword)).getText().toString();
+        //input check
+        if(inputCheckNull(email,password)){
+            Toast.makeText(this,"id or password can't be null",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         //sign in with email and password
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -93,7 +107,8 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, task.getException().getMessage(),
+                            Toast.makeText(MainActivity.this,
+                                    Objects.requireNonNull(task.getException()).getMessage(),
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -102,11 +117,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //input check func, return true if id or pw is null/empty
+    public boolean inputCheckNull(String id, String pw){
+        return (id == null || id.equals("") || pw == null || pw.equals(""));
+    }
+
     //navigate to Menu if the user is not null (has login)
     private void updateUI(FirebaseUser u){
         if (u != null){
             Intent mIntent = new Intent(this, Menu.class);
             startActivity(mIntent);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //do nothing when back button is pressed
     }
 }

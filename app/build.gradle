@@ -8,7 +8,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.cnit355.cnit425_blackboard"
+        applicationId "com.cnit425.cnit425_blackboard"
         minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
